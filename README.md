@@ -22,3 +22,5 @@ Submit ps02.py to the autograder:
 
 Submit ps02_report.pdf, challenge images, and experiment.py:
 `python submit.py ps02_report`
+
+Finally also submit your report on gradescope. That is to say two submissions through terminal and one through gradescope.
