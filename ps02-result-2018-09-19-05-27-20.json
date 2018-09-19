@@ -1,0 +1,54 @@
+{
+    "tests": [
+        {
+            "output": {
+                "passfail": "failed"
+            },
+            "traceback": "Traceback (most recent call last):\n  File \"/home/vmuser_fidosmrb/CVResult.py\", line 29, in func_wrapper\n    ans = func(self)\n  File \"run.py\", line 132, in testDoNotEnterSignBlank\n    100, ps2.do_not_enter_sign_detection, 6)\n  File \"run.py\", line 92, in traffic_sign_scene_helper\n    self.check_nonetype(result)\n  File \"/home/vmuser_fidosmrb/verify_student_output.py\", line 14, in check_nonetype\n    self.assertTrue(output is not None, \"Output is NoneType. It seems this function has not \"\nAssertionError: Output is NoneType. It seems this function has not been implemented yet or does not have a return call.\n",
+            "description": "Test for do not enter sign detection with a blank scene (10 points)"
+        },
+        {
+            "output": {
+                "passfail": "passed"
+            },
+            "traceback": "",
+            "description": "Test for construction sign detection with a blank scene (5 points)"
+        },
+        {
+            "output": {
+                "passfail": "passed"
+            },
+            "traceback": "",
+            "description": "Test for stop sign detection with a blank scene (20 points)"
+        },
+        {
+            "output": {
+                "passfail": "passed"
+            },
+            "traceback": "",
+            "description": "Test for traffic light detection with a blank scene (15 points)"
+        },
+        {
+            "output": {
+                "passfail": "passed"
+            },
+            "traceback": "",
+            "description": "Test for traffic light detection with a simulated street scene (25 points)"
+        },
+        {
+            "output": {
+                "passfail": "passed"
+            },
+            "traceback": "",
+            "description": "Test for warning sign detection with a blank scene (5 points)"
+        },
+        {
+            "output": {
+                "passfail": "passed"
+            },
+            "traceback": "",
+            "description": "Test for yield sign detection with a blank scene (20 points)"
+        }
+    ],
+    "unauthorized_lib_calls": []
+}

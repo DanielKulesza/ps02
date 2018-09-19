@@ -1,0 +1,54 @@
+{
+    "tests": [
+        {
+            "output": {
+                "passfail": "failed"
+            },
+            "traceback": "Traceback (most recent call last):\n  File \"/home/vmuser_pywidvgx/CVResult.py\", line 29, in func_wrapper\n    ans = func(self)\n  File \"run.py\", line 125, in testConstructionSignBlank\n    100, ps2.construction_sign_detection, 6)\n  File \"run.py\", line 90, in traffic_sign_scene_helper\n    result = detect_fn(test_image)\n  File \"/home/vmuser_pywidvgx/workspace/ps2.py\", line 307, in construction_sign_detection\n    raise NotImplementedError\nNotImplementedError\n",
+            "description": "Test for construction sign detection with a blank scene (5 points)"
+        },
+        {
+            "output": {
+                "passfail": "failed"
+            },
+            "traceback": "Traceback (most recent call last):\n  File \"/home/vmuser_pywidvgx/CVResult.py\", line 29, in func_wrapper\n    ans = func(self)\n  File \"run.py\", line 118, in testWarningSignBlank\n    100, ps2.warning_sign_detection, 6)\n  File \"run.py\", line 90, in traffic_sign_scene_helper\n    result = detect_fn(test_image)\n  File \"/home/vmuser_pywidvgx/workspace/ps2.py\", line 294, in warning_sign_detection\n    raise NotImplementedError\nNotImplementedError\n",
+            "description": "Test for warning sign detection with a blank scene (5 points)"
+        },
+        {
+            "output": {
+                "passfail": "failed"
+            },
+            "traceback": "Traceback (most recent call last):\n  File \"/home/vmuser_pywidvgx/CVResult.py\", line 29, in func_wrapper\n    ans = func(self)\n  File \"run.py\", line 132, in testDoNotEnterSignBlank\n    100, ps2.do_not_enter_sign_detection, 6)\n  File \"run.py\", line 92, in traffic_sign_scene_helper\n    self.check_nonetype(result)\n  File \"/home/vmuser_pywidvgx/verify_student_output.py\", line 14, in check_nonetype\n    self.assertTrue(output is not None, \"Output is NoneType. It seems this function has not \"\nAssertionError: Output is NoneType. It seems this function has not been implemented yet or does not have a return call.\n",
+            "description": "Test for do not enter sign detection with a blank scene (10 points)"
+        },
+        {
+            "output": {
+                "passfail": "failed"
+            },
+            "traceback": "Traceback (most recent call last):\n  File \"/home/vmuser_pywidvgx/CVResult.py\", line 29, in func_wrapper\n    ans = func(self)\n  File \"run.py\", line 111, in testStopSignBlank\n    100, ps2.stop_sign_detection, 6, 10)\n  File \"run.py\", line 93, in traffic_sign_scene_helper\n    self.check_tuple(result, 2)\n  File \"/home/vmuser_pywidvgx/verify_student_output.py\", line 71, in check_tuple\n    \"Your function returned an object of {}\".format(type(output)))\nAssertionError: Output is not a tuple. Your function returned an object of <type 'numpy.ndarray'>\n",
+            "description": "Test for stop sign detection with a blank scene (20 points)"
+        },
+        {
+            "output": {
+                "passfail": "passed"
+            },
+            "traceback": "",
+            "description": "Test for traffic light detection with a blank scene (15 points)"
+        },
+        {
+            "output": {
+                "passfail": "passed"
+            },
+            "traceback": "",
+            "description": "Test for traffic light detection with a simulated street scene (25 points)"
+        },
+        {
+            "output": {
+                "passfail": "passed"
+            },
+            "traceback": "",
+            "description": "Test for yield sign detection with a blank scene (20 points)"
+        }
+    ],
+    "unauthorized_lib_calls": []
+}

@@ -1,0 +1,5 @@
+    #yield - white background
+    img = cv2.medianBlur(img_in,3)
+    gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    edges = cv2.Canny(gray,0,200,apertureSize = 5)
+    lines = cv2.HoughLines(edges,2.25,1.5*(np.pi/180),99)
