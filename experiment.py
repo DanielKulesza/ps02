@@ -45,7 +45,7 @@ def draw_tl_center(image_in, center, state):
     return image_in
 
 def mark_traffic_signs(image_in, signs_dict):
-    print signs_dict
+    #print signs_dict
     """Marks the center of a traffic sign and adds its coordinates.
 
     This function uses a dictionary that follows the following
@@ -198,14 +198,14 @@ def sign_test():
                     #'scene_wrng_1']
                     #'test_images/warning_250_300_blank']
                     #'test_images/yield_173_358_blank']
-                    'scene_yld_1']
+                    #'scene_yld_1']
                     #'test_images/yield_173_358_background']
                     #'test_images/scene_all_signs']
                     #'test_images/yield_bot_left_blank']
                     #'scene_some_signs']
                     #'scene_all_signs']
                     #'scene_some_signs_noisy']
-                    #'scene_all_signs_noisy']
+                    'scene_all_signs_noisy']
 
     output_labels = ['test_scene']
                      #'ps2-2-a-2'] 
@@ -216,8 +216,8 @@ def sign_test():
     sign_fns = [#ps2.do_not_enter_sign_detection]
                 #ps2.stop_sign_detection]
                 #ps2.construction_sign_detection]
-                #ps2.warning_sign_detection]
-                ps2.yield_sign_detection]
+                ps2.warning_sign_detection]
+                #ps2.yield_sign_detection]
 
     sign_labels = ['construction'] #['no_entry', 'stop', 'construction', 'warning', 'yield']
 
@@ -230,19 +230,21 @@ def sign_test():
 
 
 def traffic_light_test():
-    name = ['scene_all_signs']
+    name = [#'scene_all_signs']
             #'scene_some_signs']
+            #'scene_some_signs_noisy']
+            'scene_all_signs_noisy']
 
     radii_range = range(10,30,1)
     img_in = cv2.imread("input_images/{}.png".format(name[0]))
-    cv2.imwrite("output/{}.png".format('test_scene_tl'), ps2.traffic_light_detection(img_in,radii_range))
+    cv2.imwrite("output/{}.png".format('test_scene_tl'), ps2.noisy_traffic_light_detection(img_in))
 
 if __name__ == '__main__':
-    #part_1()
-    #part_2()
-    sign_test()
-    #part_3()
+    part_1()
+    part_2()
+    #sign_test()
+    part_3()
     #traffic_light_test()
-    #part_4()
+    part_4()
     part_5a()
     part_5b()

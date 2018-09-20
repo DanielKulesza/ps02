@@ -13,6 +13,12 @@ def magnitude(v1,v2):
     y = v2[1] - v1[1]
     return math.sqrt((x**2+y**2))
 
+def isCloseColour(colour, expectedColour, tolerance):
+    return (np.isclose(colour[0],expectedColour[0],atol=tolerance) and
+        np.isclose(colour[1],expectedColour[1],atol=tolerance) and
+        np.isclose(colour[2],expectedColour[2],atol=tolerance))
+
+
 
 def traffic_light_detection(img_in, radii_range):
     """Finds the coordinates of a traffic light image given a radii
@@ -149,12 +155,12 @@ def yield_sign_detection(img_in):
                 angle_map["150"].append((rho,theta))
             #print (theta*(180/np.pi))
 
-            a,b = np.cos(theta), np.sin(theta)
-            x0,y0 = a*rho, b*rho
-            x1,y1= int(x0 + 1000*(-b)),int(y0 + 1000*(a))
-            x2,y2 = int(x0 - 1000*(-b)),int(y0 - 1000*(a))
+            # a,b = np.cos(theta), np.sin(theta)
+            # x0,y0 = a*rho, b*rho
+            # x1,y1= int(x0 + 1000*(-b)),int(y0 + 1000*(a))
+            # x2,y2 = int(x0 - 1000*(-b)),int(y0 - 1000*(a))
 
-            cv2.line(img_in,(x1,y1),(x2,y2),(0,255,0),2)
+            # cv2.line(img_in,(x1,y1),(x2,y2),(0,255,0),2)
 
         
             #loop through all lines with 30,90,150 deg and find vertices
@@ -190,9 +196,9 @@ def yield_sign_detection(img_in):
                     #print np.array_equal(img_in[centroid[1],centroid[0]],[255,255,255])
                     # check if pixel right below 90deg line is red
                     #raise Exception("%s %s" % (angle_map, centroid))
-                    print magnitude(deg30deg90,deg30deg150)
-                    print img_in[centroid[1],centroid[0]]
-                    if(np.array_equal(img_in[centroid[1],centroid[0]],[255,255,255]) and
+                    # print magnitude(deg30deg90,deg30deg150)
+                    # print img_in[centroid[1],centroid[0]]
+                    if(isCloseColour(img_in[centroid[1],centroid[0]],[255,255,255],10) and
                        np.isclose(magnitude(deg30deg90,deg30deg150),83,atol=5)):
                         #and deg30deg150[1] > centroid[1]
                         #and np.array_equal(img_in[redspot[1],redspot[0]],[0,0,255])):
@@ -204,7 +210,7 @@ def yield_sign_detection(img_in):
 
     #print result
     #cv2.circle(img_in,(result[0],result[1]),2,(0,0,255),3)
-    return img_in#result
+    return result
 
 
 def stop_sign_detection(img_in):
@@ -223,6 +229,12 @@ def stop_sign_detection(img_in):
     # gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
     # edges = cv2.Canny(gray,25,100,apertureSize = 3)
     # lines = cv2.HoughLines(edges,1.1,3*(np.pi/180),13)
+
+    #part 3
+    # img = cv2.medianBlur(img_in,11)
+    # gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
+    # edges = cv2.Canny(gray,300,350,apertureSize = 3)
+    # lines = cv2.HoughLines(edges,1.08,15*(np.pi/180),25)
 
     img = cv2.medianBlur(img_in,11)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
@@ -298,8 +310,8 @@ def stop_sign_detection(img_in):
                         #print img_in[centroid[1],centroid[0]]
                         #(img[centroid[1],centroid[0],2] >= 204 and img_in[centroid[1],centroid[0],2] <= 255)
                         if(np.isclose(magnitude(line12,line34),140,atol=5)):
-                            if((np.array_equal(img[centroid[1],centroid[0]], [0,0,204]) or
-                                np.array_equal(img[centroid[1],centroid[0]],[255,255,255]))):
+                            if(isCloseColour(img[centroid[1],centroid[0]], [0,0,204],15) or
+                                isCloseColour(img[centroid[1],centroid[0]],[255,255,255],15)):
                                 
                                     result = (centroid[0],centroid[1])
                                     #cv2.circle(img_in,(result[0],result[1]),2,(0,0,0),3) 
@@ -395,10 +407,11 @@ def warning_sign_detection(img_in):
                         # check if pixel right below 90deg line is red
                         #raise Exception("%s %s" % (angle_map, centroid))
                         #print img_in[centroid[1],centroid[0]]
-                        if(np.array_equal(img_in[centroid[1],centroid[0]],[0,255,255]) and
-                            np.isclose(100,magnitude(line12,line34),atol=20)):
-                            result = (centroid[0],centroid[1])
-                            cv2.circle(img_in,(result[0],result[1]),2,(0,0,0),3) 
+                        if(centroid[0] in range(0,img_in.shape[1],1) and centroid[1] in range(0,img_in.shape[0],1)):
+                            if(isCloseColour(img[centroid[1],centroid[0]],[0,255,255],15) and
+                                np.isclose(100,magnitude(line12,line34),atol=5)):
+                                result = (centroid[0],centroid[1])
+                                # cv2.circle(img_in,(result[0],result[1]),2,(0,0,0),3) 
 
     #cv2.circle(img_in,(result[0],result[1]),2,(0,0,0),3)                         
     return result
@@ -421,8 +434,8 @@ def construction_sign_detection(img_in):
     # lines = cv2.HoughLines(edges,1,3*(np.pi/180),15)
     img = cv2.medianBlur(img_in,11)
     gray = cv2.cvtColor(img,cv2.COLOR_BGR2GRAY)
-    edges = cv2.Canny(gray,250,275,apertureSize = 3)
-    lines = cv2.HoughLines(edges,0.5,3*(np.pi/180),25)
+    edges = cv2.Canny(gray,30,40,apertureSize = 3)
+    lines = cv2.HoughLines(edges,0.5,1*(np.pi/180),35)
 
 
     result = ()
@@ -493,11 +506,12 @@ def construction_sign_detection(img_in):
                         # check if pixel right below 90deg line is red
                         #raise Exception("%s %s" % (angle_map, centroid))
                         #print img_in[centroid[1],centroid[0]]
-                        if(np.array_equal(img_in[centroid[1],centroid[0]],[0,128,255]) and
-                            np.isclose(100,magnitude(line12,line34),atol=5)):
-                            
-                            result = (centroid[0],centroid[1])
-                            cv2.circle(img_in,(result[0],result[1]),2,(0,0,0),3) 
+                        if(centroid[0] in range(0,img_in.shape[1],1) and centroid[1] in range(0,img_in.shape[0],1)):
+                            if(isCloseColour(img[centroid[1],centroid[0]],[0,128,255],15) and
+                                np.isclose(100,magnitude(line12,line34),atol=5)):
+                                
+                                result = (centroid[0],centroid[1])
+                                # cv2.circle(img_in,(result[0],result[1]),2,(0,0,0),3) 
 
     #cv2.circle(img_in,(result[0],result[1]),2,(0,0,0),3)                         
     return result
@@ -513,9 +527,9 @@ def do_not_enter_sign_detection(img_in):
     Returns:
         (x,y) typle of the coordinates of the center of the sign.
     """
-    img = cv2.medianBlur(img_in,5)
+    img = cv2.medianBlur(img_in,11)
     gray_img = cv2.cvtColor(img_in,cv2.COLOR_BGR2GRAY)
-    circles = cv2.HoughCircles(gray_img,cv2.cv.CV_HOUGH_GRADIENT,1,20,param1=1,param2=10,minRadius=20,maxRadius=40)
+    circles = cv2.HoughCircles(gray_img,cv2.cv.CV_HOUGH_GRADIENT,0.1,100,param1=10,param2=13,minRadius=26,maxRadius=40)
     #print circles
     result = ()
     if circles is not None:
@@ -523,11 +537,15 @@ def do_not_enter_sign_detection(img_in):
         
         for i in circles[0,:]:
             #print i
-            colour = img_in[i[1],i[0]]
-            if (np.array_equal(colour,[255,255,255])):
+            colour = img[i[1],i[0]]
+            #print colour
+            if (isCloseColour(colour,[255,255,255],15)):
                 result = i
+                #print result
+                # cv2.circle(img_in,(i[0],i[1]),2,(0,0,255),3)
+            
             # cv2.circle(img_in,(i[0],i[1]),i[2],(0,255,0),2)
-            #  #draw the center of the circle
+            # #draw the center of the circle
             # cv2.circle(img_in,(i[0],i[1]),2,(0,0,255),3)
     #print result
     return (result[0],result[1])
@@ -625,9 +643,9 @@ def traffic_sign_detection_noisy(img_in):
         if(point != ()):
             results[label] = point
 
-    tl = traffic_light_detection(img_in, range(10,30,1))
-    if(tl[0] != ()):
-       results["traffic_light"] = tl[0]
+    tl = noisy_traffic_light_detection(img_in)
+    if(tl != ()):
+        results["traffic_light"] = tl
 
     return results
 
@@ -651,3 +669,28 @@ def traffic_sign_detection_challenge(img_in):
               valid scene.
     """
     raise NotImplementedError
+
+
+def noisy_traffic_light_detection(img_in):
+
+
+    img = cv2.medianBlur(img_in,3)
+    gray_img = cv2.cvtColor(img_in,cv2.COLOR_BGR2GRAY)
+    circles = cv2.HoughCircles(gray_img,cv2.cv.CV_HOUGH_GRADIENT,0.01,10,param1=18,param2=19,minRadius=13,maxRadius=20)
+    result = ()
+    x = 0
+    y = 0
+
+    if circles is not None:
+        circles = np.uint16(np.around(circles))
+    
+                
+        for i in circles[0,:]: 
+            #print img[i[1]][i[0]]
+            if(isCloseColour(img[i[1]][i[0]],[0,128,128],15) or
+               isCloseColour(img[i[1]][i[0]],[0,255,255],15)):
+                result = (i[0],i[1])
+                #cv2.circle(img_in,(result[0],result[1]),2,(0,0,0),3)
+
+   
+    return result
